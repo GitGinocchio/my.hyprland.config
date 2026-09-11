@@ -4,6 +4,7 @@
 
 !/quickshell
 !/quickshell/**
+/quickshell/.qmlls.ini
 
 !/hypr
 !/hypr/**
