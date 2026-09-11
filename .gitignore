@@ -3,4 +3,12 @@
 !.gitignore
 
 !/quickshell
+!/quickshell/**
+
 !/hypr
+!/hypr/**
+
+!/kitty
+!/kitty/**
+
+!.luarc.json
