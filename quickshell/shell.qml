@@ -8,12 +8,12 @@ import "panels"
 ShellRoot {
     TopBar {
         left: [
-            WorkspacePill {},
             CpuPill {},
             RamPill {},
         ]
 
         center: [
+            WorkspacePill {},
         ]
 
         right: [

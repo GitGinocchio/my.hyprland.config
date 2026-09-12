@@ -27,16 +27,19 @@ Pill {
 
             CircularIndicator {
                 icon: "sun"
+                activeColor: Theme.yellow
                 progress: root.brightProgress
             }
 
             CircularIndicator {
                 icon: "headphones"
+                activeColor: Theme.red
                 progress: root.headphonesProgress
             }
 
             CircularIndicator {
                 icon: "mic"
+                activeColor: Theme.green
                 progress: root.micProgress
             }
         }
