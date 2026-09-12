@@ -13,7 +13,7 @@ Rectangle {
     property color pillColor: Theme.crust
 
     // Se customWidth è impostato usa quello, altrimenti usa la dimensione implicita del layout interno
-    width: customWidth !== -1 ? customWidth : (innerLayout.implicitWidth + innerLayout.leftMargin + innerLayout.rightMargin)
+    width: customWidth !== -1 ? customWidth : (innerLayout.width + innerLayout.margins.left + innerLayout.margins.right)
     
     Layout.preferredWidth: width
     Layout.fillWidth: customFillWidth
