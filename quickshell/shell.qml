@@ -6,18 +6,26 @@ import "components"
 import "panels"
 
 ShellRoot {
-    TopBar {
-        left: [
-            CpuPill {},
-            RamPill {},
-        ]
+    // Itera automaticamente su tutti i monitor collegati
+    Variants {
+        model: Quickshell.screens
 
-        center: [
-            WorkspacePill {},
-        ]
+        delegate: TopBar {
+            required property var modelData
+            screen: modelData
 
-        right: [
-            ControlsPill {}
-        ]
+            left: [
+                CpuPill {},
+                RamPill {},
+            ]
+
+            center: [
+                WorkspacePill {},
+            ]
+
+            right: [
+                ControlsPill {}
+            ]
+        }
     }
 }
