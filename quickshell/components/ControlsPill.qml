@@ -1,16 +1,18 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io
 import "../services"
 import "../theme"
 
 Pill {
     id: root
-    
-    property real brightProgress: 0.6
-    property real headphonesProgress: 0.8
-    property real micProgress: 0.3
 
     customWidth: 225
+
+    Process {
+        id: notifProc
+        running: false
+    }
 
     Item {
         anchors.fill: parent
@@ -25,6 +27,7 @@ Pill {
             anchors.verticalCenter: parent.verticalCenter
             spacing: 10
 
+            // Luminosità
             CircularIndicator {
                 icon: "sun"
                 activeColor: Theme.yellow
@@ -35,16 +38,46 @@ Pill {
                 }
             }
 
+            // Cuffie / Volume Output
             CircularIndicator {
                 icon: "headphones"
                 activeColor: Theme.red
-                progress: root.headphonesProgress
+                progress: AudioService.volume
+
+                onValueChanged: newVal => {
+                    AudioService.setVolume(newVal);
+                    let percent = Math.round(newVal * 100);
+                    notifProc.command = [
+                        "notify-send", 
+                        "-h", "string:x-canonical-private-synchronous:volume", 
+                        "-u", "low",
+                        "-t", "1000",
+                        "Volume", 
+                        percent + "%"
+                    ];
+                    notifProc.running = true;
+                }
             }
 
+            // Microfono / Volume Input
             CircularIndicator {
                 icon: "mic"
                 activeColor: Theme.green
-                progress: root.micProgress
+                progress: AudioService.micVolume
+
+                onValueChanged: newVal => {
+                    AudioService.setMicVolume(newVal);
+                    let percent = Math.round(newVal * 100);
+                    notifProc.command = [
+                        "notify-send", 
+                        "-h", "string:x-canonical-private-synchronous:microphone", 
+                        "-u", "low",
+                        "-t", "1000",
+                        "Microfono", 
+                        percent + "%"
+                    ];
+                    notifProc.running = true;
+                }
             }
         }
 
@@ -86,7 +119,7 @@ Pill {
             }
         }
 
-        // 3. Secondo cerchio alla fine (Notifications)
+        // 4. Terzo cerchio alla fine (Settings)
         Rectangle {
             id: settings
             width: 26
