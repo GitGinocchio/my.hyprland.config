@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
+import "../services"
 import "../theme"
-import "."
 
 Pill {
     id: root
@@ -28,7 +28,11 @@ Pill {
             CircularIndicator {
                 icon: "sun"
                 activeColor: Theme.yellow
-                progress: root.brightProgress
+                progress: BrightnessService.value
+
+                onValueChanged: newVal => {
+                    BrightnessService.setBrightness(newVal);
+                }
             }
 
             CircularIndicator {
