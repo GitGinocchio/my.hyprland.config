@@ -35,6 +35,8 @@ Pill {
 
                 onValueChanged: newVal => {
                     BrightnessService.setBrightness(newVal);
+                    let percent = Math.round(newVal * 100);
+                    NotificationService.send("Luminosità", percent + "%", "brightness");
                 }
             }
 
@@ -47,15 +49,7 @@ Pill {
                 onValueChanged: newVal => {
                     AudioService.setVolume(newVal);
                     let percent = Math.round(newVal * 100);
-                    notifProc.command = [
-                        "notify-send", 
-                        "-h", "string:x-canonical-private-synchronous:volume", 
-                        "-u", "low",
-                        "-t", "1000",
-                        "Volume", 
-                        percent + "%"
-                    ];
-                    notifProc.running = true;
+                    NotificationService.send("Volume", percent + "%", "volume");
                 }
             }
 
@@ -68,15 +62,7 @@ Pill {
                 onValueChanged: newVal => {
                     AudioService.setMicVolume(newVal);
                     let percent = Math.round(newVal * 100);
-                    notifProc.command = [
-                        "notify-send", 
-                        "-h", "string:x-canonical-private-synchronous:microphone", 
-                        "-u", "low",
-                        "-t", "1000",
-                        "Microfono", 
-                        percent + "%"
-                    ];
-                    notifProc.running = true;
+                    NotificationService.send("Microfono", percent + "%", "microphone");
                 }
             }
         }
