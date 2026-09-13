@@ -9,24 +9,23 @@ Singleton {
 
     function setBrightness(newValue) {
         let clamped = Math.max(0.01, Math.min(1.0, newValue));
-        root.value = clamped; // Aggiornamento ottimistico immediato
+        root.value = clamped;
 
         let percent = Math.round(clamped * 100);
-        // Specifichiamo il bus i2c-1 per evitare conflitti con la TV TCL secondaria
         setProc.command = ["ddcutil", "setvcp", "10", percent, "--bus=1"];
         setProc.running = true;
     }
 
     Process {
         id: brightnessProc
-        command: ["sh", "-c", "ddcutil getvcp 10 --bus=1 | grep -oP 'current value = \\K\\d+'"]
+        command: ["sh", "-c", "ddcutil getvcp 10 --bus=1 --brief | awk '{print $4 / 100}'"]
         running: true
 
         stdout: SplitParser {
             onRead: data => {
-                let val = parseInt(data.trim());
+                let val = parseFloat(data.trim());
                 if (!isNaN(val)) {
-                    root.value = val / 100.0;
+                    root.value = val;
                 }
             }
         }
@@ -39,7 +38,7 @@ Singleton {
     }
 
     Timer {
-        interval: 1000
+        interval: 5000
         running: true
         repeat: true
         onTriggered: brightnessProc.running = true

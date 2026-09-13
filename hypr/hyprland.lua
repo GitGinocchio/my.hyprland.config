@@ -12,7 +12,7 @@ require("gestures")
 require("config")
 require("env")
 
-hl.on("hyprland.start", function () 
+hl.on("hyprland.start", function ()
     hl.exec_cmd(const.topbar)
 end)
 

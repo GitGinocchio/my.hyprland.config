@@ -13,3 +13,4 @@
 !/kitty/**
 
 !.luarc.json
+/quickshell/.cache
